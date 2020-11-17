@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: backup-mongo
+spec:
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      imagePullSecrets:
+          - name: regcred
+      containers:
+      - image: pmdev01.azurecr.io/backup-mongo:latest
+        imagePullPolicy: Always
+        name: backup-mongo
+        resources: {}
+        envFrom:
+        - secretRef:
+              name: backup-mongo     
+      restartPolicy: Never
+status: {}
