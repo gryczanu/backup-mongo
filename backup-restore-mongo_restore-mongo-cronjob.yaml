@@ -21,7 +21,7 @@ spec:
                 claimName: mongodb-dump
           containers:
             - name: console
-              image: pmdev01.azurecr.io/backup-restore-databases:v1
+              image: myazure.azurecr.io/backup-restore-databases:v1
               command:
                 - /bin/sh
                 - -c
@@ -41,4 +41,4 @@ spec:
               imagePullPolicy: IfNotPresent
           restartPolicy: Never
           imagePullSecrets:
-            - name: regcred-pmdev
+            - name: regcred
