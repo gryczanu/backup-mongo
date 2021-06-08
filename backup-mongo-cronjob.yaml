@@ -1,0 +1,45 @@
+kind: CronJob
+apiVersion: batch/v1beta1
+metadata:
+  labels:
+    app: backup-mongo
+    backup.time: weekly
+  name: backup-mongo
+  namespace: default
+spec:
+  schedule: 0 1 * * 0
+  suspend: true
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: mongodb-dump
+          containers:
+            - name: console
+              image: myazure.azurecr.io/backup-restore-databases:v1
+              command:
+                - /bin/sh
+                - -c
+                - |-
+                  set -e
+                  FILE_NAME=backup-$DATABASE_NAME-$(date '+%Y%m%d').gz
+                  mongodump --uri=mongodb://$USER:$PASSWORD@$HOST:$PORT/$DATABASE_NAME?authSource=admin --gzip --archive="/backups/$FILE_NAME"
+                  azcopy copy "/backups/$FILE_NAME" "https://$STORAGE_ACCOUNT.blob.core.windows.net/$CONTAINER_NAME/backups-$(date '+%Y%m%d')/$FILE_NAME$SAS_TOKEN"
+                  rm /backups/$FILE_NAME
+              envFrom:
+                - secretRef:
+                    name: backup-mongo
+              resources: {}
+              volumeMounts:
+                - name: data
+                  mountPath: /backups
+              imagePullPolicy: IfNotPresent
+          restartPolicy: Never
+          imagePullSecrets:
+            - name: regcred
