@@ -1,0 +1,9 @@
+USER=root
+PASSWORD=password
+HOST=mongodb-raw-storage-0.mongodb-raw-storage-headless.storage
+PORT=27017
+DATABASE_NAME=DisplayVideo
+BACKUP_DATE=20210501
+STORAGE_ACCOUNT=devgrafana
+CONTAINER_NAME=backups
+SAS_TOKEN=sas-token-stared-with'?'-exapmle:?sv=2019-12-12&ss=bfqt&srt...
