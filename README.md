@@ -10,7 +10,8 @@ kubectl apply -f secret-backup-restore-mongo.yaml 
 3. If it required, create Persistent Volumes Claims
 
 Example files are added
-mongo-dump-azure-pvc.yaml
+
+pvc.yaml
 
 4. Run a cronjob (backup or restore). By default, cronjobs are suspend and set to run a job at 01:00 on Sunday. You can rename a job name. Eg: backup-mongo-displayvideo
 
