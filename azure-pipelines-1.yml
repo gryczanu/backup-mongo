@@ -8,14 +8,16 @@ trigger:
 
 pool:
   vmImage: 'windows-latest'
+steps:  
+  task:
+  - task: ADOScheduledWorkItemQuery@0
+    inputs:
+      sendMethod: 'SendGrid'
+      connectedServiceNameSendGrid: 'Azure devops'
+      project: '9269bacf-bdd7-4ca2-9c23-eb06f205ff53'
+      queryType: 'Shared'
+      query: '677a4766-2bd1-4cbc-bd37-18c36f389cbd'
+      sendIfEmpty: true
+      subject: 'Your query results'
+      emailAddresses: 'urszulasype@gmail.com'
 
-- task: ADOScheduledWorkItemQuery@0
-  inputs:
-    sendMethod: 'SendGrid'
-    connectedServiceNameSendGrid: 'Azure devops'
-    project: '9269bacf-bdd7-4ca2-9c23-eb06f205ff53'
-    queryType: 'Shared'
-    query: '677a4766-2bd1-4cbc-bd37-18c36f389cbd'
-    sendIfEmpty: true
-    subject: 'Your query results'
-    emailAddresses: 'urszulasype@gmail.com'
